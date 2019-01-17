@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            [v-cloak]{
+                display: none;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="app">
+            <!-- <p v-cloak>{{msg}}</p> -->
+            <p v-cloak="msg"></p>
+
+        </div>
+        <!-- 当vue.js文件在渲染html之后才引入,页面上会先出现{{msg}},再变为 这是我的代码 这就是闪烁 -->
+        <!-- 解决方法1:在有{{}} 的标签上添加 v-cloak , 再给这个属性设置display:none-->
+        <!-- 解决方法2:将文件引入写在html结构代码的前面-->
+        <script src="./lib/vue.js"></script>
+        <script>
+            var vm = new Vue({
+                el: '#app',
+                data: {
+                    msg:"这是我的代码"
+                },
+                methods: {
+
+                }
+            })
+        </script>
+    </body>
+</html>

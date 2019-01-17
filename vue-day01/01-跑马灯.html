@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="./lib/vue.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <button @click="roll">浪起来</button>
+            <button @click="stop">低调</button>
+            <h4>{{msg}}</h4>
+        </div>
+        <script>
+            var vm = new Vue({
+                el: '#app',
+                data: {
+                    msg:"猥琐发育,别浪~~!",
+                    timerId:null
+                },
+                methods:{
+                    roll(){
+                        clearInterval(this.timerId)
+                        this.timerId = setInterval(()=>{
+                            let head = this.msg.substr(0,1)
+                            let end = this.msg.substr(1)
+                            this.msg = end + head
+                        },400)
+                    },
+                    stop(){
+                        clearInterval(this.timerId)
+                    }
+                }
+            })
+        </script>
+    </body>
+</html>

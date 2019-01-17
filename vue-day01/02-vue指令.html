@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="./lib/vue.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <div v-text="text">按钮</div>   
+            <div v-text="html">按钮</div>
+            <div v-html="text">按钮</div>
+            <div v-html="html">按钮</div>
+            <hr>
+            <!-- 使用v-bind绑定属性 有简写形式  :value="msg" -->
+            <!-- 还可以绑定自定义属性 -->
+            <p>{{msg}}</p>
+            <input type="text" v-bind:value="msg" v-bind:id="id">
+            <input type="text" :value="msg">
+
+            <hr>
+            <!-- 使用v-on绑定事件 -->
+            <!-- v-on:click="show"  有简写形式 @click="show" -->
+            <div v-on:click="show">点我</div>
+            <div @click="show">点我</div>
+        </div>
+        <script>
+            var vm = new Vue({
+                el: '#app',
+                data: {
+                    text:"这是纯文本",
+                    html:"<p>这是段落</p>",
+                    msg:"请输入内容",
+                    id:1
+                },
+                methods: {
+                    show(){
+                        alert("abcd");
+                    }
+                },
+            })
+        </script>
+    </body>
+</html>

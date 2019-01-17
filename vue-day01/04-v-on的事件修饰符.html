@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            .outer{
+                width: 200px;
+                height: 200px;
+                margin: 0 auto; 
+                background-color: blue;
+                overflow: hidden;
+            }
+            .inner{
+              
+                width: 100px;
+                height: 100px;
+                margin: 50px;
+                background-color: red;
+            }
+        </style>
+        <script src="./lib/vue.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <!-- 事件修饰符: 可以连写,没有先后顺序 -->
+            <!-- 1 .stop 阻止事件冒泡 在某个元素的事件后面加上 .stop , 事件冒泡就到这个元素为止-->
+            <!-- <div class="outer" @click="clickOuter">
+                <div class="inner" @click.stop="clickInner">
+                    <button class="btn" @click="clickbtn">按钮</button>
+                </div>
+            </div> -->
+
+            <!-- 2 .prevent 阻止默认行为的发生,比如a链接的跳转,或者submit表单的提交 -->
+            <!-- 点击a标签,只实现点击事件,而不跳转页面,在click后面加上 .prevent -->
+            <a href="http://www.baidu.com" @click.prevent="clickA">不知道,找百度</a>
+            <form action="">
+                <input type="text" name="name" placeholder="请输入用户名">
+                <input type="submit" @click.prevent="clicksub">
+            </form>
+
+            <!-- 3 .capture 添加事件监听器时使用事件捕获模式 -->
+            <!-- 添加了 .capture 的元素事件会最先触发,再根据事件冒泡的顺序依次触发 -->
+            <!-- <div class="outer" @click.capture="clickOuter">
+                <div class="inner" @click="clickInner">
+                    <button class="btn" @click="clickbtn">按钮</button>
+                </div>
+            </div> -->
+
+            <!-- 4 .self 哪个元素事件有.self 就非要点击到这个元素才能触发这个元素的事件,事件冒泡和捕获触发不了 -->
+            <!-- <div class="outer" @click="clickOuter">
+                <div class="inner" @click.self.stop="clickInner">
+                    <button class="btn" @click="clickbtn">按钮</button>
+                </div>
+            </div> -->
+
+            <!-- 5 .once 只能触发此事件一次,之后就无效了 -->
+            <hr>
+            <!-- a链接的点击事件只有一次,所以之后点击事件无效,上面的阻止默认行为也无效了,跳转到百度 -->
+            <a href="http://www.baidu.com" @click.prevent.once="clickA">点我</a>
+            <div class="outer" @click="clickOuter">
+                <div class="inner" @click.once="clickInner">
+                    <button class="btn" @click="clickbtn">按钮</button>
+                </div>
+            </div>
+        </div>
+        <script>
+            var vm = new Vue({
+                el: '#app',
+                data: {
+
+                },
+                methods: {
+                    clickOuter(){
+                        console.log("这是outer的点击事件")
+                    },
+                    clickInner(){
+                        console.log("这是inner的点击事件")
+                    },
+                    clickbtn(){
+                        console.log("这是btn的点击事件")
+                    },
+                    clickA(){
+                        console.log("点击了a标签")
+                    },
+                    clicksub(){
+                        console.log("表单不要提交");
+                        
+                    }
+                }
+            })
+        </script>
+    </body>
+</html>
