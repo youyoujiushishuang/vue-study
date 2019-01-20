@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="./lib/vue.js"></script>
+        <link rel="stylesheet" href="lib/bootstrap-3.3.7.css">
+        
+    </head>
+    <body>
+        <div id="app">
+            
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                <h3 class="panel-title">添加品牌</h3>
+                </div>
+                <div class="panel-body form-inline">
+                <label>
+                    Id:
+                    <input type="text" class="form-control" v-model="id">
+                </label>
+        
+                <label>
+                    Name:
+                    <input type="text" class="form-control" v-model="name" @keyup.enter="add">
+                </label>
+        
+                <!-- 在Vue中，使用事件绑定机制，为元素指定处理函数的时候，如果加了小括号，就可以给函数传参了 -->
+                <input type="button" value="添加" class="btn btn-primary" @click="add()" >
+        
+                <label>
+                    <!-- 页面一加载就能让搜索框自动获取焦点,用autofocus 但是这个有很多浏览器不支持,所以用自定义指令实现 -->
+                    搜索名称关键字：
+                    <!-- <input autofocus="autofocus" type="text" class="form-control" v-model="keywords"> -->
+                    <input type="text" class="form-control" v-model="keywords"  v-focus>
+                </label>
+                </div>
+            </div>
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                    <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Ctime</th>
+                    <th>Operation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- 之前， v-for 中的数据，都是直接从 data 上的list中直接渲染过来的 -->
+                    <!-- 现在， 我们自定义了一个 search 方法，同时，把 所有的关键字，通过传参的形式，传递给了 search 方法 -->
+                    <!-- 在 search 方法内部，通过 执行 for 循环， 把所有符合 搜索关键字的数据，保存到 一个新数组中，返回 -->
+                    <tr v-for="item in search(keywords)">
+                        <td>{{item.id}}</td>
+                        <td v-text="item.name"></td>
+                        <td>{{item.ctime | dateFormat}}</td>
+                        <td> <a href="" @click.prevent="del(item.id)">删除</a> </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    <script src="./lib/moment.js"></script>
+    <script>
+        //使用Vue.directive()定义全局指令 v-focus
+        //参数1:指令名称,此时不用写v-  但是用这个指令的时候要写v-
+        //c参数2:是一个对象,对象里面是钩子函数,也就是在某个时机执行的函数; 所谓的钩子函数就是当指令应用到标签的整个过程,每个阶段对应的函数
+        Vue.directive('focus',{
+            //下面的每个函数的第一个参数都是el,就是绑定的那个DOM元素
+            bind:function(){   //每当指令绑定到元素上的时候,会立即执行这个bond函数,只执行一次
+
+            },
+            inserted:function(el){  //元素插入DOM中的时候,会执行,只执行一次
+                console.log(el);
+                
+                el.focus()
+            },
+            update() {  //当VNode(虚拟节点,就是内存中的节点)更新的时候,会执行,可能执行多次
+                
+            },
+        })
+
+        //定义全局过滤器,对时间进行格式化
+        /* Vue.filter('dateFormat',(date)=>{
+            var dt = new Date(date)
+            var y = dt.getFullYear()
+            var m = dt.getMonth()+1
+            var d = dt.getDate()
+            return `${y}-${m}-${d}`
+        }) */
+
+        //关于时间的处理就用moment.js 不要自己封装, moment又简单又全面
+
+        /* 另外还有node.js中的moment模块,很简单,用moment.js引入进来,在看官方文档,中文的 */
+        Vue.filter('dateFormat',(date)=>{
+            return moment(date).format('YYYY-MM-DD HH:mm:ss')
+        })
+
+        var vm = new Vue({
+            el:"#app",
+            data: {
+                id:"",
+                name:"",
+                keywords:"",
+                list:[
+                    {id:1,name:"奔驰",ctime:new Date()},
+                    {id:2,name:"宝马",ctime:new Date()}
+                ]
+            },
+            methods: {
+                /* 添加功能 */
+                add(){
+                    this.list.push({id:this.id,name:this.name,ctime:new Date()})
+                },
+                /* 删除功能 */
+                del(id){
+                    // console.log(id)
+                    //根据传入的id在list中找到对应的数据删除
+                    //遍历list
+                    /* return this.list.forEach((item,i)=>{
+                        if(item.id == id){
+                            this.list.splice(i,1)
+                        }
+                    }) */
+
+                    //高级代码一行实现:
+                    //findIndex的特点: 当回调函数return true是 会结束循环并把当前遍历到的元素索引返回给调用findIndex的位置
+                    this.list.splice(this.list.findIndex(item => item.id == id),1)
+                },
+                /* 根据搜索内容渲染列表 ,让这个函数返回一个数组,直接遍历这个返回值,渲染列表*/
+                search(keywords){
+                    /* let newList = []
+                    this.list.forEach((item,i)=>{
+                        // 判断列表中商品名称中是否包含此字符串 
+                        if(item.name.indexOf(keywords) != -1 ){
+                            newList.push(item)
+                        }
+                    })
+                    return newList */
+
+                    //一行代码实现:
+                    //filter遍历数组时,会把符合条件的放在一个新数组中,并返回这个新数组
+                    //es6中有一个新方法, 字符串.includes('字段')  包含就返回true 否则返回false
+                    return this.list.filter(item => item.name.includes(keywords))
+                }
+            }
+        })
+    </script>
+    </body>
+</html>

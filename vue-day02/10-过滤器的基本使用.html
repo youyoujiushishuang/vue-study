@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="./lib/vue.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <p>{{msg | msgFilter('哈哈哈哈')}}</p>
+            <input type="text" :value="msg | msgFilter('哈哈') ">
+        </div>
+        <script>
+            //定义全局过滤器,不会修改原数据,只是在数据渲染之前进行一次处理
+            //过滤器只能在插值表达式和v-bind中使用,其他地方不能使用
+            // Vue.filter('过滤器的名字',回调函数)
+            //回调函数中的参数:
+            //第一个参数:管道符左边的内容
+            //第二个参数开始就是过滤器传过来的参数
+            Vue.filter('msgFilter',(data,str)=>{
+                return data.replace('HelloWorld','你好世界')+str
+            })
+
+            // 过滤器还可以串联使用
+            // <p>{{msg | msgFilter('哈哈哈哈') | test}}</p>
+
+            var vm = new Vue({
+                el: '#app',
+                data: {
+                    msg:"你好啊,世界!HelloWorld!"
+                },
+                methods: {
+
+                }
+            })
+        </script>
+    </body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="./lib/vue.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <!-- 方法1: 传入一个对象 -->
+            <h4 :style="classObj">{{msg}}</h4>
+
+            <!-- 方法2: 传入一个数组 -->
+            <h4 :style="[classObj,classObj1]">{{msg}}</h4>
+        </div>
+        <script>
+            var vm = new Vue({
+                el: '#app',
+                data: {
+                    msg:"白炽灯就在我头顶,晕晕乎乎",
+                    classObj:{
+                        /* 注意:对象里面的属性名一般可以不要引号,但是属性名不符合变量名命名规范的时候,一定要加引号 */
+                        'font-size':'50px',
+                        color:'red'
+                    },
+                    classObj1:{
+                        /* 注意:对象里面的属性名一般可以不要引号,但是属性名不符合变量名命名规范的时候,一定要加引号 */
+                        'background-color':'blue'
+                    }
+                },
+                methods: {
+                }
+            })
+        </script>
+    </body>
+</html>

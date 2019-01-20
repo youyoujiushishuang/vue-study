@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="./vue.js"></script>
+    </head>
+    <body>
+        <div id="app"></div>
+        <div id="app2">
+            {{ dt | dateFormat }}
+        </div>
+        <script>
+            //过滤器调用原则是:就近原则,如果全局过滤器和私有过滤器名称一致,就先使用私有的
+            //定义在Vue上的是全局过滤器,不管哪个vm实例中都可以使用
+            var vm = new Vue({
+                el: '#app',
+                data: {
+
+                },
+                methods: {
+
+                }
+            });
+            var vm2 = new Vue({
+                el:"#app2",
+                data:{
+                    dt:new Date()
+                },
+                methods:{},
+                //这个过滤器定义在app2中,只有在app2中才能使用
+                filters:{
+                    dateFormat:function(date){
+
+                    }
+                }
+            })
+        </script>
+    </body>
+</html>

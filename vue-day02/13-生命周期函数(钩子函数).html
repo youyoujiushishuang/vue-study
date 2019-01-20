@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="./vue.js"></script>
+    </head>
+    <body>
+        <div id="app"></div>
+        <script>
+            /* 生命周期函数是指: Vue实例创建的过程中,从出生到死亡每个阶段所执行的函数,
+            一共有8个
+                beforeCreate : 实例完全创建之前 , 此时data和methods等数据都没有初始化,不能使用
+                created : 实例已经创建了,data和methods等数据都可以使用了,实例对象也可以访问,可以在这个里面发送请求了
+                beforeMount : 模板在内存中编译完成了,但是还未渲染到页面上 , 此时获取的DOM元素还只是模板字符串
+                mounted : 编译好的模板完全渲染到页面,用户最终看到的样子,此时DOM也是最新的,如果想操作DOM元素,最好在这个生命周期函数中进行
+                beofreUpdate : 当data中的数据改变时,触发此函数,但是页面上的数据还没有改变
+                updated : 当data中的数据改变后,并将页面上的数据也更新完成后触发,此时data和页面上的数据是同步的,都是最新的
+                beforeDestroy : 当实例进入销毁阶段时执行的钩子函数,此时实例中的data/methods/过滤器/指令都是可用的,没还有销毁
+                destroyed : 当实例已经销毁完之后触发, 此时 data/methods/过滤器/指令 都是不可用的*/
+            var vm = new Vue({
+                el: '#app',
+                data: {
+
+                },
+                methods: {
+
+                }
+            })
+        </script>
+    </body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="./lib/vue.js"></script>
+        <style>
+            .red{
+                color:red
+            }
+            .fontsize{
+                font-size: 50px;
+            }
+            
+        </style>
+    </head>
+    <body>
+        <div id="app">
+            <!-- 方法1: 传入一个数组 -->
+            <!-- 这样写的样式还是写死了 -->
+            <!-- <h4 :class="['red','fontsize']">{{msg}}</h4> -->
+
+            <!-- 方法2: 在数组中写三元表达式,看是否需要这个类样式 -->
+            <input type="button" @click="btn" value="切换类样式">
+            <!-- <h4 :class="['red', flag?'fontsize':'']">{{msg}}</h4> -->
+
+            <!-- 方法3: 三元表达式还是复杂了,用对象的形式来表示,增加可读性 -->
+            <!-- <h4 :class="['red', {'fontsize':flag}]">{{msg}}</h4> -->
+
+            <!-- 方法4:直接使用对象 -->
+            <h4 :class="classObj">{{msg}}</h4>
+        </div>
+        <script>
+            var vm = new Vue({
+                el: '#app',
+                data: {
+                    flag:false,
+                    msg:"白炽灯就在我头顶,晕晕乎乎",
+                    classObj:{
+                        /* 注意:对象里面的属性名一般可以不要引号,但是属性名不符合变量名命名规范的时候,一定要加引号 */
+                        fontsize:true,
+                        red:false,
+                    }
+                },
+                methods: {
+                    btn(){
+                        this.flag = !this.flag
+                    }
+                }
+            })
+        </script>
+    </body>
+</html>

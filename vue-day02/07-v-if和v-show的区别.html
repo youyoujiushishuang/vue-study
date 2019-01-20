@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="./lib/vue.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <input type="button" @click="change" value="切换">
+            <!-- 都是根据flag的true/false 来决定是否显示,区别是:
+                v-if 在切换时,是删除和加载DOM元素
+                而v-show 切换时,是切换 display:none 和 display:block  DOM元素是一直存在的 -->
+            <p v-if="flag">{{msg}}</p>
+            <p v-show="flag">{{msg}}</p>
+        </div>
+        <script>
+            var vm = new Vue({
+                el: '#app',
+                data: {
+                    msg:'这是测试数据',
+                    flag:true
+                },
+                methods: {
+                    change(){
+                        this.flag = !this.flag
+                    }
+                }
+            })
+        </script>
+    </body>
+</html>
