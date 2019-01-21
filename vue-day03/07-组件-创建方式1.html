@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="./lib/vue.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <mycom></mycom>
+        </div>
+        <script>
+            /* 创建组件的第一种方法 */
+            /* 1.创建组件 */
+            var com = Vue.extend({
+                template:'<h1>这是创建的模板里面的html代码,全手写,无提示</h1>'
+            })
+            /* 2.注册组件 */
+            Vue.component('mycom',com)
+            /* 3.使用组件:在vm实例控制的区域,用组件名作为标签名,写一对标签就行 */
+            /* 注意: 1. 在注册组件名字的时候,如果组件名用驼峰命名的,在作为标签使用的时候,把大写字母改为小写,并将两个单词之间用 - 连接
+                    当然,如果命名时,没有用驼峰命名,就直接用祖建名作为标签名 */
+
+            var vm = new Vue({
+                el: '#app',
+                data: {
+
+                },
+                methods: {
+
+                }
+            })
+        </script>
+    </body>
+</html>

@@ -59,6 +59,11 @@
         </div>
     <script src="./lib/moment.js"></script>
     <script>
+        //设置全局根域名,之后的请求路径要用相对路径
+        Vue.http.options.root = 'http://vue.lovegf.cn:8899/api'
+
+        //设置post全局请求格式配置为 x-www-form-urlencoded
+        Vue.http.options.emulateJSONP = true
         //使用Vue.directive()定义全局指令 v-focus
         //参数1:指令名称,此时不用写v-  但是用这个指令的时候要写v-
         //c参数2:是一个对象,对象里面是钩子函数,也就是在某个时机执行的函数; 所谓的钩子函数就是当指令应用到标签的整个过程,每个阶段对应的函数
@@ -97,7 +102,7 @@
             methods: {
                 /* 获取列表数据 */
                 getAllLists(){
-                    this.$http.get('http://vue.lovegf.cn:8899/api/getprodlist').then(result=>{
+                    this.$http.get('getprodlist').then(result=>{
                         // console.log(this,result.body);
                         //箭头函数中的this指向函数外部的this,所以可以用this.list获取到data中的list
                         if(result.body.status == 0){
@@ -108,7 +113,7 @@
 
                 /* 添加功能 */
                 add(){
-                    this.$http.post('http://vue.lovegf.cn:8899/api/addproduct',{name:this.name},{emulateJSONP:true}).then(result=>{
+                    this.$http.post('addproduct',{name:this.name}).then(result=>{
                         if(result.body.status == 0){
                             this.list = result.body.message
                         }
@@ -117,7 +122,7 @@
 
                 /* 删除功能 */
                 del(id){
-                    this.$http.get(`http://vue.lovegf.cn:8899/api/delproduct/${id}`).then(result=>{
+                    this.$http.get(`delproduct/${id}`).then(result=>{
                         if(result.body.status == 0){
                             this.list = result.body.message
                         }

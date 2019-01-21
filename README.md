@@ -1,6 +1,8 @@
 ### vue-study
 + nodes
     - [vueday01.md](./nodes/vueday01.md)
+    - [vueday02.md](./nodes/vueday02.md)
+    - [vueday03.md](./nodes/vueday03.md)
 + vue-day01
     - [01-跑马灯.html](./vue-day01/01-跑马灯.html)
     - [02-vue指令.html](./vue-day01/02-vue指令.html)
@@ -21,3 +23,13 @@
     - [13-生命周期函数(钩子函数).html](./vue-day02/13-生命周期函数(钩子函数).html)
     - [14-vue-resource发送请求.html](./vue-day02/14-vue-resource发送请求.html)
     - [15-品牌列表案例升级版.html](./vue-day02/15-品牌列表案例升级版.html)
++ vue-day03
+    - [01-动画-不使用动画.html](./vue-day03/01-动画-不使用动画.html)
+    - [02-动画-使用过度类名.html](./vue-day03/02-动画-使用过度类名.html)
+    - [03-动画-自定义前缀.html](./vue-day03/03-动画-自定义前缀.html)
+    - [04-动画-第三方类库.html](./vue-day03/04-动画-第三方类库.html)
+    - [05-动画-半场动画.html](./vue-day03/05-动画-半场动画.html)
+    - [06-动画-列表动画.html](./vue-day03/06-动画-列表动画.html)
+    - [07-组件-创建方式1.html](./vue-day03/07-组件-创建方式1.html)
+    - [08-组件-创建方法2.html](./vue-day03/08-组件-创建方法2.html)
+    - [09-组件-创建方法3.html](./vue-day03/09-组件-创建方法3.html)

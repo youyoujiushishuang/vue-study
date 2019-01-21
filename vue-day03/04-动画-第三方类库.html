@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="./lib/vue.js"></script>
+        <link rel="stylesheet" href="./lib/animate.css">
+        <style>
+            /* transition 标签上是第三方库的类名,优先级高于普通类名 */
+        
+        </style>
+    </head>
+    <body>
+        <div id="app">
+            <input type="button" @click="change" value="按钮">
+            <!-- 需求: 点击按钮让h3显示隐藏切换 -->
+            <!-- 1.使用 transition 标签把需要被动画控制的元素包裹起来 这个标签会给它包裹的元素添加和移除类名 -->
+            <!-- 2.设置入场和离场动画的时间 : 使用 :duration = "毫秒数" 进行统一设置 或者用
+                :duration="{enter:200 , leave:300 }" 来分别设置-->
+            <transition 
+            enter-active-class="animated bounceIn"
+            leave-active-class="animated bounceOut"
+            :duration="{ enter:5000 , leave:1000 }">
+                <h3 v-if="flag1">这是一个h3</h3>
+            </transition> 
+        </div>
+        <script>
+            var vm = new Vue({
+                el: '#app',
+                data: {
+                    flag1:false,
+                    flag2:true
+                },
+                methods: {
+                    change(){
+                        this.flag1 = !this.flag1
+                        this.flag2 = !this.flag2
+                    }
+                }
+            })
+        </script>
+    </body>
+</html>

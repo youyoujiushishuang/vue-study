@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="./lib/vue.js"></script>
+        <style>
+            .ball{
+                width: 15px;
+                height: 15px;
+                background-color: red;
+                border-radius: 50%
+            }
+        </style>
+    </head>
+    <body>
+        <div id="app">
+            <!-- 需求: 点击购物车,有一个小球从购买数量跳到购物车
+                由于页面的滚动,动画的路径也不一样,要用js实现 -->
+            <input type="button" @click="flag = !flag" value="快到碗里来">
+            <transition
+                @before-enter="beforeEnter"
+                @enter="enter"
+                @after-enter="afterEnter">
+                <div class="ball" v-show="flag"></div>
+            </transition>
+        </div>
+        <script>
+            var vm = new Vue({
+                el: '#app',
+                data: {
+                    flag:false
+                },
+                methods: {
+                    beforeEnter(el){
+                        // console.log('入场动画开始之前');
+                        el.style.transform = "translate(0,0)"
+                    },
+                    enter(el,done){
+                        // console.log('入场动画正在进行中...');
+                        el.offsetWidth  //强制动画刷新
+                        el.style.transform = "translate(150px, 450px)"
+                        el.style.transition = "all 1s ease"
+                        //done 是 afterEnter 的异步调用
+                        //在内部监听el的过渡事件: webkitTransitionEnd  监听过渡完成的事件
+                        //如果调用了 done, 表示当前动画结束时,执行了afterEnter函数
+                        done()
+                    },
+                    afterEnter(el){
+                        // console.log('入场动画结束了');
+                        this.flag = !this.flag
+                        
+                        //这里动画结束之后,小球要隐藏起来,但是不能设置display:none 
+                        //因为设置了这个属性之后,就一直存在,
+                    }
+                }
+            })
+        </script>
+    </body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="./lib/vue.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <mycom></mycom>
+        </div>
+        <script>
+            /* 组件创建的第二种方法: */
+            /* 1.直接创建和注册组件 */
+            /* 这样就不用记 Vue.extend 方法了 */
+            Vue.component('mycom',{
+                template:'<h2>这是模板里的字符串</h2>'
+            })
+
+
+            var vm = new Vue({
+                el: '#app',
+                data: {
+
+                },
+                methods: {
+
+                }
+            })
+        </script>
+    </body>
+</html>

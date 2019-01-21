@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="./lib/vue.js"></script>
+        <link rel="stylesheet" href="./lib/bootstrap-3.3.7.css">
+    </head>
+    <body>
+        <div id="app">
+            
+            
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                        <h3 class="panel-title">添加品牌</h3>
+                </div>
+                <div class="panel-body form-inline">
+                    <label for="">
+                        name:
+                        <input type="text" v-model="name" class="form-control">
+                    </label>
+                    <input type="button" value="添加" @click="add" class="btn btn-primary ">
+                    <label>
+                        搜索名称关键字：
+                        <!-- <input autofocus="autofocus" type="text" class="form-control" v-model="keywords"> -->
+                        <input type="text" class="form-control" v-model="keywords" v-focus>
+                    </label>
+                </div>
+                <table class="table table-bordered table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <td>id</td>
+                            <td>name</td>
+                            <td>ctime</td>
+                            <td>操作</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(item,i) in list" :key="item.id">
+                            <td>{{item.id}}</td>
+                            <td>{{item.name}}</td>
+                            <td>{{item.ctime | dateFormat}}</td>
+                            <td>
+                                <a href="" @click.prevent="del(item.id)">删除</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <table>
+
+            </table>
+            
+            
+           
+            
+            
+            
+        </div>
+        <script src="./lib/vue-resource-1.3.4.js"></script>
+        <script src="./lib/moment.js"></script>
+        <script>
+            /* 1.设置全局请求根域名 */
+            Vue.http.options.root = 'http://vue.lovegf.cn:8899/api'
+
+            /* 2.设置全局post请求格式都是application/x-www/form-urlencoded */
+            Vue.http.options.emulateJSONP = true
+
+            /* 3.设置全局过滤器,将时间格式化之后显示在页面上 用 moment.js 插件 更简单 */
+            /* 过滤器的第一个参数一定是 管道夫左边的数据 */
+            Vue.filter('dateFormat',(oldDate)=>{
+                return moment(oldDate).format('YYYY-MM-DD HH:mm:ss')
+            })
+
+            /* 4.设置全局指令 , 实现一进入页面,搜索框获得焦点 */
+            /* 设置全局自定义指令的第一个参数是指令的名字,此时不需要 v- 开头, 但是使用指令时要 v-开头
+                第二个参数是对象,里面有几个指令的生命周期函数,每个函数的第一个参数都是el, 表示绑定此指令的dom元素,在适当的时候写js代码 */
+            Vue.directive('focus',{
+                bind(){     //当元素刚刚绑定了此指令时触发,只执行一次
+
+                },
+                inserted(el){     //当绑定此指令的元素插入到DOM中时触发,只触发一次
+                    el.focus()
+                },
+                update(){       //当VNode (内存中的节点) 更新的时候触发,可能会触发多次
+
+                }
+            })
+
+            var vm = new Vue({
+                el: '#app',
+                data: {
+                    id:"",
+                    name:"",
+                    keywords:"",
+                    list:[]
+                },
+                created() {
+                    this.getProducts()
+                },
+                methods: {
+                    /* 1.获取所有品牌列表 */
+                   getProducts(){
+                        this.$http.get('getprodlist')
+                        .then(result=>{
+                            this.list = result.body.message
+                        })
+                   },
+                    add(){
+                        /* 2.请求添加数据 */
+                        this.$http.post('addproduct',{name:this.name})
+                        .then(result=>{
+                            this.list = result.body.message
+                        })
+                    },
+                    del(id){
+                        /* 3.请求删除数据 */
+                        this.$http.get(`delproduct/${id}`)
+                        .then(result=>{
+                            this.list = result.body.message
+                        })
+                    }
+                }
+            })
+        </script>
+    </body>
+</html>

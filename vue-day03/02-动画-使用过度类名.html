@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="./lib/vue.js"></script>
+        <style>
+            /* .v-enter 是一个时间点 ,是进入之前元素的起始状态,此时还没有进入 */
+            /* .v-leave-to 是一个时间点 ,是离开之后.元素的结束状态,此时已经离开*/
+            /* .v-enter,
+            .v-leave-to {
+                opacity: 0;
+                transform: translateX(180px)
+            } */
+            .v-enter{
+                opacity: 0;
+                transform: translateX(180px)
+            }
+            .v-leave-to{
+                opacity: 0;
+                transform: translateY(180px)
+            }
+            
+            /*  .v-enter-to, 是一个时间点 , 是进入开始到结束时携带的类名,与 v-enter进行切换,进入结束后移除,移除后,opacity默认为1 , transform: translateX 默认为0 , 所以最后的状态并不是这里设置的那样
+                .v-leave */
+
+           /*  .v-enter-to,
+            .v-leave{
+                opacity: 0.5;
+                transform: translateX(0)
+            } */
+            /*  .v-enter-active  [入场动画时间段]
+                .v-leave-active  [出场动画时间段]*/
+            .v-enter-active,
+            .v-leave-active {
+                transition: all 0.8s ease;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="app">
+            <input type="button" @click="flag=!flag" value="按钮">
+            <!-- 需求: 点击按钮让h3显示隐藏切换 -->
+            <!-- 1.使用 transition 标签把需要被动画控制的元素包裹起来 这个标签会给它包裹的元素添加和移除类名 -->
+            <transition>
+                <h3 v-if="flag">这是一个h3</h3>
+            </transition>
+            
+        </div>
+        <script>
+            var vm = new Vue({
+                el: '#app',
+                data: {
+                    flag:false
+                }
+            })
+        </script>
+    </body>
+</html>
