@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Template • TodoMVC</title>
+		<link rel="stylesheet" href="node_modules/todomvc-common/base.css">
+		<link rel="stylesheet" href="node_modules/todomvc-app-css/index.css">
+		<!-- CSS overrides - remove if you don't need it -->
+		<link rel="stylesheet" href="css/app.css">
+		<script src="./js/vue.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<section class="todoapp">
+				<header class="header">
+					<h1>todos</h1>
+					<input class="new-todo" placeholder="What needs to be done?" autofocus @keyup.enter="add" v-model="newThing" v-focus>
+				</header>
+				<!-- This section should be hidden by default and shown when there are todos -->
+				<section class="main" :style="disObj">
+					<input id="toggle-all" class="toggle-all" type="checkbox">
+					<label for="toggle-all" @click="allDone">Mark all as complete</label>
+					<ul class="todo-list">
+						<!-- These are here just to show the structure of the list items -->
+						<!-- List items should get the class `editing` when editing and `completed` when marked as completed -->
+						<li v-for="(item,i) in newthinglist" :key="item.id" :class="['todo',{completed:item.isDone},{editing:item.id == editId}]" @dblclick="edit(item.id)">
+							<div class="view">
+								<!-- ：checked='option.checked'  如果option.checked为true，就渲染checked属性，否则input元素没有这个属性。 -->
+								<!-- item.isDone 默认是false ,就是没有完成,没有checked属性,不选中 -->
+								<input class="toggle" type="checkbox" :checked="item.isDone" @click="complete(item.id)">
+								<label>{{item.thing}}</label>
+								<button class="destroy" @click="destroy(item.id)"></button>
+							</div>
+							<input class="edit" v-model="item.thing"  @blur="blur(item.id)" v-changeinput="focusState" @keyup.enter="changeThing(item.id)">
+						</li>
+						<!-- <li class="completed">
+							<div class="view">
+								<input class="toggle" type="checkbox" checked>
+								<label>Taste JavaScript</label>
+								<button class="destroy"></button>
+							</div>
+							<input class="edit" value="Create a TodoMVC template">
+						</li>
+						<li>
+							<div class="view">
+								<input class="toggle" type="checkbox">
+								<label>Buy a unicorn</label>
+								<button class="destroy"></button>
+							</div>
+							<input class="edit" value="Rule the web">
+						</li> -->
+					</ul>
+				</section>
+				<!-- This footer should hidden by default and shown when there are todos -->
+				<footer class="footer" :style="disObj">
+					<!-- This should be `0 items left` by default -->
+					<span class="todo-count"><strong v-text="leftNum"></strong> item left</span>
+					<!-- Remove this if you don't implement routing -->
+					<ul class="filters">
+						<li @click="all">
+							<a href="#/" :class="[{'selected':flag1}]">All</a>
+						</li>
+						<li @click="active">
+							<a href="#/active" :class="[{'selected':flag2}]">Active</a>
+						</li>
+						<li @click="completed">
+							<a href="#/completed" :class="[{'selected':flag3}]">Completed</a>
+						</li>
+					</ul>
+					<!-- Hidden if no completed items are left ↓ -->
+					<button class="clear-completed" @click="clearCompleted">Clear completed</button>
+				</footer>
+			</section>
+			<footer class="info" >
+				<p>Double-click to edit a todo</p>
+				<!-- Remove the below line ↓ -->
+				<p>Template by <a href="http://sindresorhus.com">Sindre Sorhus</a></p>
+				<!-- Change this out with your name and url ↓ -->
+				<p>Created by <a href="http://todomvc.com">you</a></p>
+				<p>Part of <a href="http://todomvc.com">TodoMVC</a></p>
+			</footer>
+		</div>
+
+		<!-- Scripts here. Don't remove ↓ -->
+		<script src="node_modules/todomvc-common/base.js"></script>
+		<script src="js/app.js"></script>
+
+		<script>
+			/* 定义全局指令: v-focus 自动获取焦点 */
+			Vue.directive('focus',{
+				inserted(el){
+					el.focus()
+				}
+			})
+			Vue.directive('changeinput',{
+				update(el){
+					el.focus()
+				}
+			})
+			let vm = new Vue({
+				el:"#app",
+				data:{
+					/* 左右的事项 */
+					things:[],
+					/* 筛选之后的事项 newthinglist 页面上渲染的这个*/
+					newthinglist:[],
+					newThing:"",
+					leftNum:0,
+					flag1:true,
+					flag2:false,
+					flag3:false,
+					disObj:{
+						display:'none'
+					},
+					editId:null,
+					focusState:false
+				},
+				created() {
+					this.init()
+					this.countNum()
+					this.all()
+				},
+				methods:{
+					/* 一进入页面时,如果没有事项,页面上不显示select 和 footer */
+					init(){
+						if(this.things.length != 0){
+							this.disObj = {display:'block'}
+						} else{
+							this.disObj = {display:'none'}
+						}
+					},
+					/* 在输入框输入内容敲回车,添加事项 */
+					add(){
+						if(this.newThing.trim() == "")  return alert('请输入代办事项')
+						/* 计算id */
+						if(this.things.length == 0){
+							newId = 1
+						}
+						var newId = this.things.length
+						// console.log(newId);
+						this.things.push({id:newId, thing:this.newThing, isDone:false})
+						/* 当往数组里面添加新数据的时候,让select 和 ftooter显示 */
+						this.init()
+						this.newThing = ""
+						/* 重新计算剩余件数 */
+						this.countNum()
+					},
+					/* 双击事项,添加editing类名,让其处于可编辑状态 */
+					edit(id){
+						console.log(123456);
+						this.editId = id
+						this.focusState = true
+					},
+					/* 改变input里面的事项回车之后,失去编辑状态,改变thing */
+					changeThing(id){
+						/* this.newthinglist.forEach(item=>{
+							if(item.id == id){
+								console.log(item.thing);
+								this.newthinglist = this.newthinglist
+							}
+						}) */
+						console.log(123);
+						this.focusState = false
+						this.editId = null
+					},
+					/* 输入框失去焦点就要失去编辑状态 */
+					blur(id){
+						this.editId = null
+					},
+					/* 点击输入框前面的全选按钮,实现全选或者全不选 */
+					allDone(){
+						
+						this.things.forEach(item => {
+							item.isDone = !item.isDone
+						})
+						this.countNum()
+					},
+					/* 点击每一项前面的复选框,切换checked 属性和li上面的completed类样式,重新计算剩余件数 */
+					complete(id){
+						this.things.forEach(item=>{
+							if(item.id == id){
+								item.isDone = !item.isDone
+							}
+						})
+						this.countNum()
+					},
+					/* 计算剩余多少件事情没有完成 计算leftNum的值 */
+					countNum(){
+						this.leftNum = 0
+						this.newthinglist.forEach(item=>{
+							if(!item.isDone){
+								this.leftNum++
+							}
+							// console.log(this.leftNum);
+						})
+					},
+					/* 点击每一件事项后面的叉叉,删除这件事 */
+					destroy(id){
+						this.newthinglist.forEach((item,i) =>{
+							if(item.id == id){
+								this.newthinglist.splice(i,1)
+							}
+						})
+					},
+					/* 点击all显示所有事件 */
+					all(){
+						this.newthinglist = this.things
+						this.flag1 = true
+						this.flag2 = this.flag3 =  false
+						 
+					},
+					/* 点击active 显示所有未完成的事件 */
+					active(){
+						this.flag2 = true
+						this.flag1 = this.flag3 =  false
+						this.newthinglist = []
+						this.things.forEach(item=>{
+							if(!item.isDone){
+								this.newthinglist.push(item)
+							}
+						})
+					},
+					/* 点击completed 显示所有已经完成的事件 */
+					completed(){
+						this.flag3 = true
+						this.flag1 = this.flag2 =  false
+						this.newthinglist = []
+						this.things.forEach(item=>{
+							if(item.isDone){
+								this.newthinglist.push(item)
+							}
+						})
+					},
+					/* 点击 clear completed 清除掉已经完成的事情 */
+					clearCompleted(){
+						let leftThings = []
+						this.things.forEach(item =>{
+							if(!item.isDone){
+								console.log(item);
+								leftThings.push(item)
+							}
+							this.things = leftThings
+							this.newthinglist = leftThings
+						})
+						this.init()
+
+					}
+
+				},
+				
+			})
+		</script>
+	</body>
+</html>
