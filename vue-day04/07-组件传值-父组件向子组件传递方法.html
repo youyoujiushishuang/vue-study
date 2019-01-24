@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="./lib/vue.js"></script>
+    </head>
+    <body>
+        <!-- 实现点击子组件的按钮,调用父组件的方法 -->
+        <!-- 1.将父组件的方法通过事件绑定的方式,传递给子组件 ,这样的话,子组件就可以通过this.$emit('事件名')来调用了-->
+        <div id="app">
+            <son v-bind:parentmsg="msg" @getfunc="show"></son>
+        </div>
+
+        <template id="tpl">
+            <div class="contain">
+                <input type="button" value="点击执行父组件的show方法" @click="sonclick">
+                <h1>{{parentmsg}}</h1>
+            </div>
+        </template>
+        <script>
+            var vm = new Vue({
+                el: '#app',
+                data: {
+                    msg:"这是父组件身上的数据"
+                },
+                methods: {
+                    show(){
+                        console.log('这是父组件身上的show方法');
+                    }
+                },
+                components:{
+                    son:{
+                        template:"#tpl",
+                        props:["parentmsg"],
+                        methods:{
+                            sonclick(){
+                                this.$emit('getfunc')
+                            }
+                        }
+                    }
+                }
+            })
+        </script>
+    </body>
+</html>

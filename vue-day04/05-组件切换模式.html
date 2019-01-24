@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="./lib/vue.js"></script>
+        <style>
+            .change-enter,
+            .change-leave-to{
+                opacity: 0;
+                transform: translateX(200px)
+            }
+            .change-enter-active,
+            .change-leave-to{
+                transition: all 0.8s ease;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="app">
+            <input type="button" value="登录" @click="componentId = 'login'">
+            <input type="button" value="注册" @click="componentId = 'register'">
+            <!-- 需求:点击按钮切换组件的时候有动画效果 -->
+            <!-- 单元素的动画是将元素包裹在 transition 标签之中,再设置类样式实现,组件也一样 -->
+            <!-- 添加了类样式之后确实有切换效果,但是由于两个组件都是h1标签,占位置,切换的时候体验不好 -->
+            <!-- 所以设置切换模式 mode 属性 有两个值: out-in  /  in-out 常用的是 out-in-->
+            <transition name="change" mode="out-in">
+                <component :is="componentId"></component>
+            </transition>
+        </div>
+        <script>
+            Vue.component('login',{
+                template:"<h1>登录组件</h1>"
+            })
+            Vue.component('register',{
+                template:"<h1>注册组件</h1>"
+            })
+            var vm = new Vue({
+                el: '#app',
+                data: {
+                    componentId:'login'
+                },
+                methods: {
+
+                }
+            })
+        </script>
+    </body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="./lib/vue.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <input type="button" value="获取元素内容" @click="gettext">
+            <input type="text" v-model="text">
+            <p ref="myp">这是父组件的p标签</p>
+            <input type="button" value="获取子组件" @click="getson">
+            <son ref="myson"></son>
+        </div>
+
+        <template id="tpl">
+            <p>这是子组件</p>
+        </template>
+
+        <script>
+
+            var vm = new Vue({
+                el: '#app',
+                data: {
+                    text:""
+                },
+                methods: {
+                    gettext(){
+                        console.log(this.$refs.myp);
+                        this.text = this.$refs.myp.innerText
+                    },
+                    getson(){
+                        console.log(this.$refs.myson);
+                        console.log(this.$refs.myson.msg);
+                        console.log(this.$refs.myson.sonshow);
+                        
+                    }
+                },
+                components:{
+                    son:{
+                        template:"#tpl",
+                        data(){
+                            return {
+                                msg:"子组件的数据"
+                            }
+                        },
+                        methods:{
+                            sonshow(){
+                                console.log("这是子组件的方法");
+                                
+                            }
+                        }
+                    }
+                }
+            })
+        </script>
+    </body>
+</html>

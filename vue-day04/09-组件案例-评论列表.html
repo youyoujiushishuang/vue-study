@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="./lib/vue.js"></script>
+        <link rel="stylesheet" href="./lib/bootstrap-3.3.7.css">
+    </head>
+    <body>
+        <div id="app">
+            <cmt-box @post-comment="getComments"></cmt-box>
+            <!-- 父组件中渲染评论列表 -->
+            <div class="box" style="margin-top:50px">
+                <ul class="list-group">
+                    <li class="list-group-item" v-for="item in list" :key="item.id">
+                        {{item.content}}
+                        <span class="badge">评论人:{{item.user}}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 子组件中发表评论 -->
+        <template id="tpl" >
+            <div class="contain">
+                <form action="" role="form">
+                    <div class="form-group">
+                        <label for="">评论人:</label>
+                        <input type="text" class="form-control" v-model="user">
+                    </div>
+                    <div class="form-group">
+                        <label for="">评论内容:</label>
+                        <textarea v-model="content" class="form-control" rows="3" required="required"></textarea>
+                        
+                    </div>
+                    <button type="submit" class="btn btn-primary" @click.prevent="post">发表评论</button>
+                </form>
+            </div>
+        </template>
+
+
+
+        <script>
+            var comments = {
+                template:"#tpl",
+                data(){
+                    return {
+                        user:"",
+                        content:""
+                    }
+                },
+                methods:{
+                    post(){
+                        //点击发表评论的时候,将表单中的数据存储到localStorage中
+                        //1.先获取本地缓存中的字符串,如果为空字符串就取 '[]' , 将之转化为数组对象
+                        let cmts = JSON.parse(localStorage.getItem('cmts') || '[]')
+                        //2.将要发表的评论添加到数组中
+                        cmts.unshift({id:Date.now(), user: this.user, content: this.content})
+                        //3.再将新数组转化为字符串,存储到本地缓存中
+                        localStorage.setItem('cmts',JSON.stringify(cmts))
+                        //4.通知父组件已经添加完了,可以调用函数,自动刷新了
+                        this.$emit("post-comment")
+                        //5.将子组件中的 user 和 content 清空
+                        this.user = this.content = ""
+                    }
+                }
+            }
+            var vm = new Vue({
+                el: '#app',
+                data: {
+                    list:[
+                        {id:Date.now(), user:'李白', content:'天生我材必有用'},
+                    ]
+                },
+                methods: {
+                    getComments(){
+                        //由于子组件将评论都存储到了本地缓存中,所以父组件直接获取本地缓存的数据,赋值给 this.list就行
+                        //那么重点来了,什么时候调用这个函数呢? 应该在子组件将数据存到本地缓存中去之后,就可以调用 ,
+                        //所以需要将父组件中的方法传递到子组件中去
+                        this.list = JSON.parse(localStorage.getItem('cmts'))
+                    }
+                },
+                components:{
+                    'cmt-box':comments
+                }
+            })
+        </script>
+    </body>
+</html>

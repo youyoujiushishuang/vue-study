@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="./lib/vue.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <!-- Prop 是你可以在组件上注册的一些自定义特性。
+                当一个值传递给一个 prop 特性的时候，它就变成了那个组件实例的一个属性。 -->
+            <!-- 那么怎样将父组件的数据传递给子组件的prop呢?  -->
+            <!-- 1. 可以通过在子组件上绑定属性,将数据通过属性值传递过来 -->
+            <!-- 2.绑定属性之后,还要在子组件的props属性上接收一下,接收的是属性名,这个属性名就相当于父组件中的值了
+                    接收完之后,子组件可以在组件上找到这个属性名的数据,直接调用即可 -->
+            <login v-bind:parentmsg="msg"></login>
+        </div>
+
+        <template id="tpl">
+            <p>{{parentmsg}}</p>
+        </template>
+
+        <script>
+            /* vm实例就相当于一个组件,是父组件 */
+            /* 定义一个组件,在app内部使用,相当于子组件 */
+            Vue.component('login',{
+                template:"#tpl",
+                props:['parentmsg']
+            })
+            var vm = new Vue({
+                el: '#app',
+                data: {
+                    msg:"这是父组件中的data中的数据"
+                },
+                methods: {
+
+                }
+            })
+        </script>
+    </body>
+</html>

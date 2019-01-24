@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="./lib/vue.js"></script>
+        <!-- 1.路由的文件要在vue文件的下面引入 -->
+        <script src="./lib/vue-router-3.0.1.js"></script>
+        <style>
+            .com-enter,
+            .com-leave-to{
+                opacity: 0;
+                transform: translateX(180px);
+            }
+            .com-enter-active,
+            .com-leave-active{
+                transition: all 0.8s ease;
+            }
+            .router-link-active{
+                background-color: red;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="app">
+            <!-- <a href="#/login" >登录</a>
+            <a href="#/register">注册</a> -->
+            <!-- 7.有了router模块之后,自动有router-link标签,默认渲染为a标签,可以通过tag属性改变 
+                还有to属性,指定显示哪个组件, 而且点击的时候当前标签自动携带类名 router-link-active,
+                其余移除此类名,我们紫瑶在这个类名上添加样式,就可以轻松实现高亮 -->
+            <router-link to="/login" tag="span">登录</router-link>
+            <router-link to="/register">注册</router-link>
+
+            <!-- 6.使用一个占位符,组件将在这里展示 -->
+            <!-- 8.这里的组件切换也可以有动画 -->
+            <transition name="com" mode="out-in">
+                <router-view></router-view>
+            </transition>
+
+            
+        </div>
+        <script>
+            //创建组件,用字面量创建
+            var login = {
+                template:"<h1>这是登录组件</h1>"
+            }
+            var register = {
+                template:"<h1>这是注册组件</h1>"
+            }
+            //2.创建路由对象
+            var routerObj = new VueRouter({
+                //3.这里对象中有一个 route 的配置项, 表示[路由配置规则的意思]
+                routes:[
+                    //4.每一条路由规则都是一个对象,这个对象中至少包含两个属性
+                    //4.1 属性1: path 路径 表示监听哪个路由链接地址
+                    //4.2 属性2: component 组件 表示如果路由是前面匹配到的path, 则展示component对应的组件
+                        //注意: 属性2 component的值必须是一个组件对象,而不是组件引用名称,即不要传入字符串
+                    
+                    //9. 重定向 redirect
+                    {path : '/' , redirect : '/login'},
+                    {path : '/login' , component : login},
+                    {path : '/register' , component : register},
+                ],
+                //10.还可以通过 linkActiveClass 配置项改变当前点击的标签上添加的类名
+                // linkActiveClass: 'myactive' //可以配合框架使用,框架中有active对应的类名,自带样式
+            })
+            var vm = new Vue({
+                el: '#app',
+                data: {},
+                methods: {},
+                //5.将路由规则对象挂载到vn实例上
+                router:routerObj,
+                /* components:{
+                    login:{
+                        template:"<h1>这是登录组件</h1>"
+                    },
+                    register:{
+                        template:"<h1>这是登录组件</h1>"
+                    }
+                } */
+            })
+        </script>
+    </body>
+</html>

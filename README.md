@@ -35,4 +35,15 @@
     - [09-组件-创建方法3.html](./vue-day03/09-组件-创建方法3.html)
 + todoMVC
     + [index.html](./todomvc-app-template-master/index.html)
-
++ vue-day04
+    - [01-定义私有组件.html](./vue-day04/01-定义私有组件.html)
+    - [02-组件中的data和methods.html](./vue-day04/02-组件中的data和methods.html)
+    - [03-组件的切换.html](./vue-day04/03-组件的切换.html)
+    - [04-组件的切换.html](./vue-day04/04-组件的切换.html)
+    - [05-组件切换模式.html](./vue-day04/05-组件切换模式.html)
+    - [06-组件传值-父组件向子组件传值.html](./vue-day04/06-组件传值-父组件向子组件传值.html)
+    - [07-组件传值-父组件向子组件传递方法.html](./vue-day04/07-组件传值-父组件向子组件传递方法.html)
+    - [08-组件传值-子组件向父组件传值.html](./vue-day04/08-组件传值-子组件向父组件传值.html)
+    - [09-组件案例-评论列表.html](./vue-day04/09-组件案例-评论列表.html)
+    - [10-通过ref来获取vue中的DOM元素或组件.html](./vue-day04/10-通过ref来获取vue中的DOM元素或组件.html)
+    - [11-路由的基本使用.html](./vue-day04/11-路由的基本使用.html)

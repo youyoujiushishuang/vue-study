@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="./lib/vue.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <!-- 实现组件的切换 -->
+            <!-- 方法2:Vue提供了 component 标签,是一个占位符,可以展示指定名称的组件 -->
+            <div class="contain">
+                <input type="button" value="登录" @click="componentId = 'login'">
+                <input type="button" value="注册" @click="componentId = 'register'">
+                <component :is="componentId"></component>
+                <!-- <login v-if="flag"></login>
+                <register v-else></register> -->
+            </div>
+        </div>
+        <template id="tpl1">
+            <div>
+                <h1>这是登录组件</h1>
+            </div>
+        </template>
+
+        <template id="tpl2">
+            <div>
+                <h1>这是注册组件</h1>
+            </div>
+        </template>
+
+        <script>
+            /* 定义全局登录组件 */
+            Vue.component('login',{
+                template:"#tpl1",
+            })
+            var vm = new Vue({
+                el: '#app',
+                data: {
+                    componentId:'login'
+                },
+                methods: {
+
+                },
+                /* 定义私有注册组件 */
+                components:{
+                    register:{
+                        template:"#tpl2"
+                    }
+                }
+            })
+        </script>
+    </body>
+</html>

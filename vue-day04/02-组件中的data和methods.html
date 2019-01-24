@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="./lib/vue.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <com1></com1>
+        </div>
+        <script>
+            var vm = new Vue({
+                el: '#app',
+                data: {
+
+                },
+                components:{
+                    com1:{
+                        template: "<h1>这是私有组件</h1>"
+                    },
+                    /* 组件中的data与vm实例中的不一样 , 是一个函数,里面必须返回一个对象 */
+                    /* 并且这个对象不能是全局的,否则多次使用这个组件,组件里面的数据都是一样的 */
+                    data(){
+                        return {
+                            show:false
+                        }
+                    },
+                    methods: {
+                        
+                    },
+                }
+            })
+        </script>
+    </body>
+</html>

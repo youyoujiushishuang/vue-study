@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="./lib/vue.js"></script>
+    </head>
+    <body>
+        <!-- 将子组件的数据传递给父组件,很少用 -->
+        <!-- 方法: 先做好将父组件的方法传递给子组件,在通过子组件调用父组件的方法的时候,将子组件的数据当做参数传递 -->
+        <div id="app">
+            <son @getshow="show"></son>
+        </div>
+
+        <template id="tpl">
+            <input type="button" value="点击,调用父组件的show方法,并将子组件的数据党参数传递过去" @click="sonclick">
+        </template>
+        <script>
+            var vm = new Vue({
+                el: '#app',
+                data: {
+
+                },
+                methods: {
+                    show(agr){
+                        console.log("这是父组件身上的show方法---"+agr);
+                    }
+                },
+                /* 定义一个子组件 */
+                components:{
+                    son:{
+                        template:"#tpl",
+                        data(){
+                            return {
+                                sonmsg:"这是儿子身上的数据"
+                            }
+                        },
+                        methods:{
+                            sonclick(){
+                                this.$emit('getshow',this.sonmsg)
+                            }
+                        }
+                    }
+                }
+            })
+        </script>
+    </body>
+</html>
