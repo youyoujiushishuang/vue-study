@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="./lib/vue.js"></script>
+        <script src="./lib/vue-router-3.0.1.js"></script>
+    </head>
+    <body>
+        <!-- 命名视图是在一个路由中展示多个组件,实现经典布局,但是基本上不用,因为我们直接用css写这样的布局更简单 -->
+        <div id="app">
+            <router-view>
+
+            </router-view>
+        </div>
+        <script>
+            /* 创建组件 */
+            var myhead = {
+                template:"<h1>这是head</h1>"
+            }
+            var leftBox = {
+                template:"<h1>这是左侧边栏r</h1>"
+            }
+            var mainBox = {
+                template:"<h1>这是右边主体内容</h1>"
+            }
+
+            /* 创建路由对象 */
+            var router= new VueRouter({
+                routes:[
+                    {
+                        path:'/',
+                        components:{
+                            'default':myhead,
+                            'left':leftBox,
+                            'main':mainBox
+                        }
+                    }
+                ]
+            })
+
+            var vm = new Vue({
+                el: '#app',
+                data: {
+
+                },
+                methods: {
+
+                },
+                /* 注册组件 */
+                components:{
+                    myhead,
+                    leftBox,
+                    mainBox
+                },
+                router
+            })
+        </script>
+    </body>
+</html>

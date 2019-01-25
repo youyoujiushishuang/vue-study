@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="./lib/vue.js"></script>
+        <script src="./lib/vue-router-3.0.1.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <router-link to="/home">home</router-link>
+            <router-view></router-view>
+        </div>
+        <template id="tpl">
+            <div>
+                <h1>这是首页,的组件,里面有登录和注册两个按钮,点击按钮,在home组件内切换子组件,父组件要一直存在</h1>
+                <router-link to="/home/login">登录</router-link>
+                <router-link to="/home/register">注册</router-link>
+                <!-- <router-link to="/login">登录</router-link>
+                <router-link to="/register">注册</router-link> -->
+                <router-view></router-view>
+            </div>
+        </template>
+        <script>
+            /* 定义组件 */
+            var home = {
+                template:"#tpl"
+            }
+            var login = {
+                template:"<h3>这是登录组件</h3>"
+            }
+            var register = {
+                template:"<h3>这是注册组件</h3>"
+            }
+
+            /* 配置路由 */
+            var router = new VueRouter({
+                routes:[
+                    /* { path:'/home' , component: home},
+                    //下面这两个路由的组件应该显示在home组件内部,而不是让home消失,自己显示 
+                    { path:'/login' , component: login},
+                    { path:'/register' , component: register} */
+                    // 所以路由不应该向上面这么写
+                    {
+                        path:'/home' ,
+                        component: home , 
+                        //这里用children 属性实现子路由 注意这里的path值不要前面的 / ,否则会以根路径去请求 
+                        children : [
+                            { path:'/home/login' , component: login},
+                            { path:'/home/register' , component: register} 
+                            /* { path:'login' , component: login},
+                            { path:'register' , component: register}  */
+                        ]
+                    }
+                ]
+            })
+            var vm = new Vue({
+                el: '#app',
+                data: {
+
+                },
+
+                /* 注册组件 */
+                components:{
+                    home,
+                    login,
+                    register
+                },
+                /* 注册路由 */
+                router
+            })
+        </script>
+    </body>
+</html>

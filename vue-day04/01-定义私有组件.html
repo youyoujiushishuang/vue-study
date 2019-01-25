@@ -16,9 +16,14 @@
                 data: {
 
                 },
+                /* 注册组件之后就可以在app中将组件名当做标签名使用 */
                 components:{
                     com1:{
-                        template: "<h1>这是私有组件</h1>"
+                        template: "<h1>这是私有组件</h1>",
+                        data(){
+                            return {}
+                        },
+                        methods:{}
                     }
                 }
             })

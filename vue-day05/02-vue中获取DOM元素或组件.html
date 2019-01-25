@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="./lib/vue.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <input type="text" v-model="msg">
+            <input type="text" v-model="com">
+            <input type="button" @click="getp" value="获取DOM元素内容和组件">
+            <p ref="p">这是p标签的内容</p>
+            <login ref="mylogin"></login>
+        </div>
+        <script>
+            /* 定义一个组件 */
+            var login = {
+                template:"<p>登录</p>"
+            }
+            var vm = new Vue({
+                el: '#app',
+                data: {
+                    msg:"",
+                    com:""
+                },
+                methods: {
+                    getp(){
+                        console.log(this.$refs);
+                        //获取DOM元素的内容
+                        this.msg = "这是DOM中的内容: " + this.$refs.p.innerText
+                        //获取组件中的内容
+                        this.com = "这是组件中的内容: "+ this.$refs.mylogin.$el.innerText
+                    }
+                },
+                components:{
+                    login
+                }
+            })
+        </script>
+    </body>
+</html>

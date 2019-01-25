@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="./lib/vue.js"></script>
+        <!-- 1.路由的文件要在vue文件的下面引入 -->
+        <script src="./lib/vue-router-3.0.1.js"></script>
+        <style>
+            .com-enter,
+            .com-leave-to{
+                opacity: 0;
+                transform: translateX(180px);
+            }
+            .com-enter-active,
+            .com-leave-active{
+                transition: all 0.8s ease;
+            }
+            .router-link-active{
+                background-color: red;
+            }
+            .li-list{
+                border: 1px dashed #ccc;
+                margin: 5px;
+                padding-left: 10px;
+                list-style: none
+            }
+        </style>
+    </head>
+    <body>
+        <div id="app">
+            <transition name="com" mode="out-in">
+                <router-view></router-view>
+            </transition>
+        </div>
+
+        <template id="listtpl">
+            <div class="product-list">
+                <h1>这是列表页</h1>
+                <ul>
+                    <!-- 这里传参要用属性绑定,将to属性的值作为表达式来解析,也就是在to属性的值中写js代码,所以可以拼接
+                    如果没有加属性绑定,直接写 to="/productlist?item.id" 就是纯文本,参数都是 item.id -->
+                    <!-- 1. 这里先使用 query 来传参 -->
+                    <!-- <router-link class="li-list" v-for="item in list" :key="item.id" tag="li" :to="'/detail?id='+item.id"> -->
+
+                    <!-- 2.下面改用 params 来传参 -->
+                    <router-link class="li-list" v-for="item in list" :key="item.id" tag="li" :to="'/detail/'+item.id">
+                        <h4>标题: {{item.title}}</h4>
+                        <p>标题: {{item.content}}</p>
+                    </router-link>
+                </ul>
+            </div>
+        </template>
+
+        <template id="detailtpl">
+            <!-- 1.使用 query 传参来接收参数 -->
+            <!-- <h1>这是详情页---{{$route.query.id}}</h1> -->
+
+            <!-- 2.使用 params 传参来接收参数 -->
+            <h1>这是详情页---{{$route.params.id}}</h1>
+
+        </template>
+
+        <script>
+            //创建组件,用字面量创建
+            var productlist = {
+                template:"#listtpl",
+                data(){
+                    return {
+                        list:[
+                            {id:1,title:'高考',content:"高考落榜"},
+                            {id:2,title:'娱乐圈2',content:"琅琊榜"},
+                            {id:3,title:'娱乐圈3',content:"琅琊榜"},
+                            {id:4,title:'娱乐圈4',content:"琅琊榜"},
+                            {id:5,title:'娱乐圈5',content:"琅琊榜"},
+                            {id:6,title:'娱乐圈6',content:"琅琊榜"},
+                        ]
+                    }
+                }
+            }
+            var detail = {
+                template:"#detailtpl",
+                created(){
+                    console.log(this.$route);
+                }
+            }
+            //2.创建路由对象
+            var routerObj = new VueRouter({
+                routes:[
+                    {path : '/' , redirect : '/productlist'},
+                    {path : '/productlist' , component : productlist},
+                    /* 1. 使用 query 传参, path属性path 不用改变 可以用 this.$route.query 获取参数*/
+                    // {path : '/detail' , component : detail},
+
+                    /* 2. 使用 params 传参, path属性要改变, 可以用 this.$route.params 获取参数 */
+                    {path : '/detail/:id' , component : detail},
+                ],
+                
+            })
+            var vm = new Vue({
+                el: '#app',
+                data: {},
+                methods: {},
+                //5.将路由规则对象挂载到vn实例上
+                router:routerObj,
+            })
+        </script>
+    </body>
+</html>
