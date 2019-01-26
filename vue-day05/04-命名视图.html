@@ -6,24 +6,54 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <script src="./lib/vue.js"></script>
         <script src="./lib/vue-router-3.0.1.js"></script>
+        <style>
+            *{
+                margin: 0;
+                padding: 0;
+            }
+            html,body {
+                width: 100%;
+            }
+            .myhead{
+                width: 100%;
+                height: 100px;
+                background-color: skyblue;
+            }
+            .contain{
+                display: flex;
+            }
+            .left{
+                width: 200px;
+                height: 600px;
+                background-color: pink;
+            }
+            .main{
+                flex:1;
+                background-color: purple;
+            }
+        </style>
     </head>
     <body>
         <!-- 命名视图是在一个路由中展示多个组件,实现经典布局,但是基本上不用,因为我们直接用css写这样的布局更简单 -->
         <div id="app">
-            <router-view>
-
-            </router-view>
+            <router-view></router-view>
+            <!-- 下面的两个组件占位符用一个div包裹起来好写样式 -->
+            <div class="contain">
+                <!-- router-view标签中没有name属性指定哪个组件的,都会显示路由中定义的默认的组件 -->
+                <router-view name="left"></router-view>
+                <router-view name="main"></router-view>
+            </div>
         </div>
         <script>
             /* 创建组件 */
             var myhead = {
-                template:"<h1>这是head</h1>"
+                template:"<h1 class='myhead'>这是head</h1>"
             }
             var leftBox = {
-                template:"<h1>这是左侧边栏r</h1>"
+                template:"<h1 class='left'>这是左侧边栏r</h1>"
             }
             var mainBox = {
-                template:"<h1>这是右边主体内容</h1>"
+                template:"<h1 class='main'>这是右边主体内容</h1>"
             }
 
             /* 创建路由对象 */

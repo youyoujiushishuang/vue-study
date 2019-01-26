@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="./lib/vue.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <!-- 这里的事件无论使用 keyup 还是 input表单改变  都是一样  -->
+            <input type="text" v-model="firstname" @input="getfullname"> +
+            <input type="text" v-model="lastname" @input="getfullname"> =
+            <input type="text" v-model="fullname">
+            <!-- 这里都是其实不是在监听数据的变化,而是监听事件的发生 -->
+            <!-- 当手动修改firstname时,data中的数据改变了,但是由于此时没有触发getfullname事件,所以fullname没有自动改变 -->
+            <input type="button" value="将firstname手动修改" @click='changefirstname'>
+        </div>
+        <script>
+            var vm = new Vue({
+                el: '#app',
+                data: {
+                    firstname:"",
+                    lastname:"",
+                    fullname:""
+                },
+                methods: {
+                    getfullname(){
+                        this.fullname = this.firstname + '-' + this.lastname
+                    },
+                    changefirstname(){
+                        this.firstname = 'kavin'
+                    }
+                }
+            })
+        </script>
+    </body>
+</html>

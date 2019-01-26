@@ -1,4 +1,6 @@
-### 2 路由的传参
+## 1 路由
+
+### 1 路由的传参
 
 1 使用 `query` 在路由中使用查询字符串('/login?id=2') 传参,不用修改路由中的path属性 ;  用 this.$route.query 可以获取到参数,是一个对象 {id:2}
 
@@ -48,7 +50,7 @@ var router = new VueRouter({
 </template>
 ```
 
-### 3 路由嵌套
+### 2 路由嵌套
 
 ```html
 <div id="app">
@@ -120,7 +122,7 @@ var vm = new Vue({
 
 
 
-### 4 命名视图
+### 3 命名视图
 
 一条路由显示多个组件,并安排每一个组件的位置
 
@@ -149,7 +151,7 @@ var router = new VueRouter({
 
 
 
-## 15  watch   computed  methods
+## 2  watch   computed  methods
 
 ### 1 watch 监视数据的变化 
 
@@ -221,6 +223,12 @@ var vm = new Vue({
 ```
 
 ### 4 watch  computed  methods  三者的区别
+
+```js
+//1. methods 表示一个具体的操作，主要内容为书写业务逻辑; 监听数据的本质是监听事件,而不是监听数据,要是不通过触发事件导致的数据改变,就监听不到了;
+//2. watch 中监听的数据必须存在,要么在data中定义过,要么是$route这种挂载在 vm 实例上的数据
+//3. computed 中监听的数据必须是data中不存在的,该function中必须有一个返回值,这个返回值就是计算结果,而且其计算结果会被缓存
+```
 
 
 

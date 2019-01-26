@@ -47,3 +47,12 @@
     - [09-组件案例-评论列表.html](./vue-day04/09-组件案例-评论列表.html)
     - [10-通过ref来获取vue中的DOM元素或组件.html](./vue-day04/10-通过ref来获取vue中的DOM元素或组件.html)
     - [11-路由的基本使用.html](./vue-day04/11-路由的基本使用.html)
++ vue-day05
+    - [01-路由的传参.html](./vue-day05/01-路由的传参.html)
+    - [02-vue中获取DOM元素或组件.html](./vue-day05/02-vue中获取DOM元素或组件.html)
+    - [03-路由嵌套.html](./vue-day05/03-路由嵌套.html)
+    - [04-命名视图.html](./vue-day05/04-命名视图.html)
+    - [05-在methods中用事件监视数据的变化.html](./vue-day05/05-在methods中用事件监视数据的变化.html)
+    - [06-在watch中监听数据.html](./vue-day05/06-在watch中监听数据.html)
+    - [07-在watch中监听路由的改变.html](./vue-day05/07-在watch中监听路由的改变.html)
+    - [08-在computed中监听数据.html](./vue-day05/08-在computed中监听数据.html)

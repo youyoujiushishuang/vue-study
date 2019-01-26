@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="./lib/vue.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <input type="text" v-model="firstname"> +
+            <input type="text" v-model="lastname"> =
+            <input type="text" v-model="fullname">
+            <input type="button" value="将firstname手动修改" @click='changefirstname'>
+        </div>
+        <script>
+            var vm = new Vue({
+                el: '#app',
+                data: {
+                    firstname:"",
+                    lastname:"",
+                    fullname:""
+                },
+                methods: {
+                    changefirstname(){
+                        this.firstname = 'kavin'
+                    }
+                },
+                watch:{
+                    /* Vue实例中有watch属性,是一个对象,其中属性名是你要监听的 data 中的数据的名称,属性值是一个函数 */
+                    /* 这样虽然看起来是函数的写法,但是使用的时候是直接当成属性使用,而不是当成函数调用 */
+                    /* 这里监听的是 data 中数据的变化,即便是手动修改了data中的数据,fullname 也会自动修改 */
+                    'firstname':function(to,from){
+                        console.log('新数据是: ' + to + ', 旧数据是: ' + from);
+                        this.fullname = to + '-' + this.lastname
+                        
+                    },
+                    'lastname':function(newVal,oldVal){
+                        console.log('新数据是: ' + newVal + ', 旧数据是: ' + oldVal);
+                        this.fullname = this.firstname + '-' + newVal
+                    }
+                }
+            })
+        </script>
+    </body>
+</html>

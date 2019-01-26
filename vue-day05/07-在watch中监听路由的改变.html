@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="./lib/vue.js"></script>
+        <script src="./lib/vue-router-3.0.1.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <div class="contain">
+                <router-link to="/login">登录</router-link>
+                <router-link to="/register">注册</router-link>
+                <router-view></router-view>
+            </div>
+        </div>
+
+        <template id="tpl1">
+            <h1>这里是登录组件</h1>
+        </template>
+        <template id="tpl2">
+            <h1>这里是注册组件</h1>
+        </template>
+        <script>
+            /* 定义组件模板 */
+            var login = {
+                template : "#tpl1"
+            }
+            var register = {
+                template : "#tpl2"
+            }
+
+            /* 创建路由 */
+            const router = new VueRouter({
+                routes:[
+                    {path:'/login',component:login},
+                    {path:'/register',component:register},
+                ]
+            })
+            var vm = new Vue({
+                el: '#app',
+                data: {
+                },
+                methods: {
+                },
+                router,
+                /* 在watch中监听路由 */
+                watch: {
+                    '$route':function(){
+                        console.log(this.$route);
+                        console.log(this.$route.path);
+                        
+                    }
+                },
+
+            })
+        </script>
+    </body>
+</html>
