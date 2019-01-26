@@ -3,6 +3,8 @@
     - [vueday01.md](./nodes/vueday01.md)
     - [vueday02.md](./nodes/vueday02.md)
     - [vueday03.md](./nodes/vueday03.md)
+    - [vueday04.md](./nodes/vueday04.md)
+    - [vueday05.md](./nodes/vueday05.md)
 + vue-day01
     - [01-跑马灯.html](./vue-day01/01-跑马灯.html)
     - [02-vue指令.html](./vue-day01/02-vue指令.html)

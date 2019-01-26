@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="./lib/vue.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <input type="text" v-model="age">
+            <!-- 事件修饰符是在键盘事件后面起作用,在事件后加上别名或者keyCode -->
+            <!-- 这里是当enter回车键按键抬起时触发save事件 -->
+            <!-- 可以指定哪个按键(用keyCode指定或者自己定义别名)发生某一键盘事件时触发 -->
+            <!-- <input type="text" @keyup.enter="save" v-model="name"> -->
+            <!-- <input type="text" @keyup.112="save" v-model="name"> -->
+            <input type="text" @keyup.f1="save" v-model="name">
+        </div>
+        <script>
+            /* 自己定义按键修饰符 */
+            Vue.config.keyCodes.f1 = 112
+            var vm = new Vue({
+                el: '#app',
+                data: {
+                    age:"",
+                    name:""
+                },
+                methods: {
+                    save(){
+                        alert(this.age + this.name)
+                    }
+                }
+            })
+        </script>
+    </body>
+</html>

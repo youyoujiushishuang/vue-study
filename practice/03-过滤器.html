@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="./lib/vue.js"></script>
+        <script src="./lib/moment.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <p>{{time | changedtime}}</p>
+        </div>
+        <script>
+            /* 使用过滤器,将时间换成 YYYY-MM-DD HH:mm:ss 这样的格式 */
+            /* 全局过滤器 */
+            /* Vue.filter('管道符右边过滤器的名字' , function (管道符左边内容,过滤器传过来的数据,过滤器传过来的数据...) {}  ) */
+            /* 注意回调函数中一定要有 return 不然没有值 */
+            /* Vue.filter('changedtime',function(data){
+                return moment(data).format('YYYY-MM-DD HH:mm:ss')
+            }) */
+
+            
+            var vm = new Vue({
+                el: '#app',
+                data: {
+                    time: new Date()
+                },
+                /* 定义私有过滤器 */
+                filters:{
+                    changedtime:function(data){
+                        return moment(data).format('YYYY-MM-DD HH:mm:ss')
+                    }
+                }
+            })
+        </script>
+    </body>
+</html>

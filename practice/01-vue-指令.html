@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="./lib/vue.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <!-- v-html -->
+            <h4>v-html</h4>
+            <div v-html="htmlsmg"></div>
+
+            <hr>
+            <!-- v-text -->
+            <h4> v-text</h4>
+            <p v-text="htmlsmg"></p>
+            <hr>
+            <!-- v-bind 绑定属性 简写为 : -->
+            <h4> v-bind</h4>
+            <input type="text" v-bind:value="val">
+            <input type="text" :value="val">
+            <br>
+            <!-- 根据data中的数据动态绑定属性 -->
+            <p>表单中的checked属性比较特殊,只要有checked这个属性,不管后面是什么值都有选中状态 </p>
+            <input type="checkbox" :checked="ischecked" >
+            <input type="button" value="点我,动态绑定checked属性" @click="changechecked">
+            <!-- 如果是直接写属性checked,后面不管是什么值,都会有选中状态,
+                所以要绑定属性checked,让 ischecked 来决定是否要绑定这个属性-->
+            <input type="checkbox" checked="false">
+
+            <p>用三元表达式来动态绑定属性,checked属性不适合这么绑定</p>
+            <input type="text" :value="isshow? '动态显示表单内容' : '' ">
+            <input type="button" @click="changeshow" value="点我,三元表达式动态绑定属性">
+
+           
+            <hr>
+            <!-- v-on 事件绑定,简写为 @ -->
+            <h4> v-on v-show  v-if</h4>
+            <a href="" @click.prevent="clickme">点我</a>
+            <p v-show="flag">这是由v-show属性决定是否显示,display控制</p>
+            <p v-if="flag">这是由v-if属性决定是否显示,删除,渲染</p>
+            
+            <hr>
+            <!-- 事件绑定修饰符 -->
+            <h4> 事件绑定修饰符</h4>
+            <!-- stop 点击下面的会发生冒泡,用 stop可以阻止冒泡,冒泡事件到了这一层不会再往外面扩展 -->
+            <!-- self 这个事件修饰符表示,不管是冒泡还是捕获等都不能触发我的事件,除非我自己本身被触发了 -->
+            <!-- capture  添加事件监听器时,使用事件捕获模式,如果在冒泡事件中,会最先发生 -->
+            <!-- once 只触发一次,之后再次触发无效 -->
+            <a href="" @click.prevent="clickme">点我,这里的prevent阻止a的默认跳转</a>
+            <div @click.once="one">我在最外面
+                <div @click="two">我在中间
+                    <p @click="three">我在最里面</p>
+                </div>
+            </div>
+
+            <hr>
+            <!-- v-model -->
+            <h4>v-model 动态展示数据变化,实现双向数据流</h4>
+            <input type="text" v-model="name">
+            <p>{{name}}</p>
+
+            <hr>
+            <!-- 动态绑定样式 这里数组中的样式都是在style或者css文件中写好的-->
+            <h4>v-bind:class 动态绑定样式</h4>
+            <p :class="['red','active']">1.传入一个数组</p>
+            <p :class="[flag? 'red':'green']">2.数组中传入一个三元表达式</p>
+            <p :class="['red', {'fontsize':flag}]">3.数组中传入对象</p>
+            <p :class="{fontsize:flag}">4.直接传入一个对象</p>
+            <p :class="calssObj">4.直接传入一个对象</p>
+            <!-- 在data中有 classObj 这个对象 {fontsize:true,red:false} -->
+
+
+            <h4>v-bind:style 动态绑定样式</h4>
+            <p :style="{color:'red','font-size':'20px'}">1.直接传入一个对象</p>
+            <h4 :style="classObj">直接传入一个对象</h4>
+            <h4 :style="[classObj,classObj1]">{{msg}}</h4>
+            <!-- data: {
+                classObj: { color: 'red', 'font-weight': 200 },
+                classObj1: { 'font-style': 'italic' }
+              } -->
+
+            <hr>
+            <!-- v-for -->
+            <h4>v-for 循环</h4>
+            <ul>
+                <li v-for="item in list" :key="item.id">{{item.name}}</li>
+            </ul>
+
+            <hr>
+            <h4>自定义指令</h4>
+            <input type="text" v-focus>
+            <!-- 自定义指令 -->
+
+
+
+        </div>
+
+
+        <script>
+            /* 定义全局指令 v-focus 自动获取焦点,此指令只能在进入页面时自动获取焦点*/
+            /* Vue.directive('focus',{
+                bind(el){
+
+                },
+                inserted(el){
+                    el.focus()
+                },
+                update(el){
+
+                }
+            }) */
+
+            var vm = new Vue({
+                el: '#app',
+                data: {
+                    htmlsmg:"<h1>这是段落</h1>",
+                    val:"这是表单内容",
+                    ischecked:false,
+                    isshow:true,
+                    flag:true,
+                    name:"",
+                    list:[
+                        {id:1,name:'诸葛亮'},
+                        {id:2,name:'关羽'},
+                        {id:3,name:'张飞'},
+                        {id:4,name:'刘备'},
+
+                    ]
+                },
+                methods: {
+                    changechecked(){
+                        this.ischecked = !this.ischecked
+                    },
+                    changeshow(){
+                        this.isshow = !this.isshow
+                    },
+                    clickme(){
+                        this.flag = !this.flag
+                        console.log(this.flag);
+                    },
+                    one(){
+                        console.log("点了最外面一层")
+                    },
+                    two(){
+                        console.log("点了中间一层")
+                    },
+                    three(){
+                        console.log("点了最里面一层")
+                    },
+                },
+                
+                /* 自定义私有指令 */
+                directives:{
+                    focus:{
+                        bind(el){
+
+                        },
+                        inserted(el){
+                            el.focus()
+                        },
+                        update(el){
+
+                        }
+                    }
+                }
+            })
+        </script>
+    </body>
+</html>
+
+
