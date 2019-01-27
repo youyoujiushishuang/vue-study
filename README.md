@@ -5,6 +5,7 @@
     - [vueday03.md](./nodes/vueday03.md)
     - [vueday04.md](./nodes/vueday04.md)
     - [vueday05.md](./nodes/vueday05.md)
+    - [vueday06.md](./nodes/vueday06.md)
 + vue-day01
     - [01-跑马灯.html](./vue-day01/01-跑马灯.html)
     - [02-vue指令.html](./vue-day01/02-vue指令.html)
@@ -58,3 +59,5 @@
     - [06-在watch中监听数据.html](./vue-day05/06-在watch中监听数据.html)
     - [07-在watch中监听路由的改变.html](./vue-day05/07-在watch中监听路由的改变.html)
     - [08-在computed中监听数据.html](./vue-day05/08-在computed中监听数据.html)
++ vue-day06
+    - [webpack-study](./vue-day06/webpack-study)
